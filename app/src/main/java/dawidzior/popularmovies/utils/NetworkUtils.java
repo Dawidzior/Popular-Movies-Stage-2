@@ -17,7 +17,6 @@ public class NetworkUtils {
     private static final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie";
     private static final String API_KEY_PARAM = "api_key";
 
-    //Pass your API key here.
     private static final String API_KEY = BuildConfig.MOVIE_DB_API_KEY;
 
     @Nullable

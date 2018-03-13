@@ -10,13 +10,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
+import dawidzior.popularmovies.BuildConfig;
+
 public class NetworkUtils {
     public static final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/";
     private static final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie";
     private static final String API_KEY_PARAM = "api_key";
 
     //Pass your API key here.
-    private static final String API_KEY = "";
+    private static final String API_KEY = BuildConfig.MOVIE_DB_API_KEY;
 
     @Nullable
     public static URL buildTheMovieDbUrl(String queryType) {

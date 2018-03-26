@@ -5,3 +5,6 @@ App to help users discover popular and recent movies.
 Project for Android Developer Nanodegree program by Google.
 
 To run the app, you have to pass your API key in NetworkUtils class, API_KEY constant.
+
+![alt text](https://github.com/Dawidzior/Popular-Movies-Stage-2/blob/master/Screenshot_1522089571.png "Details screenshot")
+

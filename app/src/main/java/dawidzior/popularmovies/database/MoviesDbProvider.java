@@ -42,7 +42,7 @@ public class MoviesDbProvider extends ContentProvider {
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues contentValues) {
+    public Uri insert(@NonNull Uri uri, ContentValues contentValues) {
         switch (uriMatcher.match(uri)) {
             case ALL_MOVIES:
                 long rowID = db.insert(TABLE_MOVIES, null, contentValues);
@@ -76,12 +76,12 @@ public class MoviesDbProvider extends ContentProvider {
 
     @Nullable
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
         throw new RuntimeException("Not implemented in Popular Movies.");
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         int count;
         switch (uriMatcher.match(uri)) {
             case MOVIE_ID:
@@ -96,7 +96,7 @@ public class MoviesDbProvider extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
+    public int update(@NonNull Uri uri, ContentValues contentValues, String selection, String[] selectionArgs) {
         throw new RuntimeException("Not implemented in Popular Movies.");
     }
 }

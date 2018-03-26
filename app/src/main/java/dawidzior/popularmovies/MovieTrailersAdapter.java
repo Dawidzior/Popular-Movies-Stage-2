@@ -3,6 +3,7 @@ package dawidzior.popularmovies;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,13 +31,13 @@ public class MovieTrailersAdapter extends RecyclerView.Adapter<MovieTrailersAdap
     }
 
     @Override
-    public MovieTrailersAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MovieTrailersAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View poster = LayoutInflater.from(parent.getContext()).inflate(R.layout.trailer_item_layout, parent, false);
         return new MovieTrailersAdapter.ViewHolder(poster);
     }
 
     @Override
-    public void onBindViewHolder(MovieTrailersAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MovieTrailersAdapter.ViewHolder holder, int position) {
         if (isYoutube(position)) {
             final String movieKey = trailersList.get(position).getKey();
             Picasso.with(context).load(YOUTUBE_THUMBNAIL_LINK + movieKey +

@@ -26,14 +26,11 @@ import static dawidzior.popularmovies.database.MoviesDbContract.MoviesEntry._ID;
 
 public class MoviesListLoader extends AsyncTaskLoader<List<Movie>> {
 
-    private Context context;
     private String internetRequestSortByKey;
     private List<Movie> moviesList = null;
 
-
     MoviesListLoader(Context context, Bundle bundle) {
         super(context);
-        this.context = context;
         if (bundle != null) internetRequestSortByKey = bundle.getString(MainActivity.SORT_BY_KEY);
     }
 
@@ -51,9 +48,9 @@ public class MoviesListLoader extends AsyncTaskLoader<List<Movie>> {
             }
         } else {
             //Database request.
-            Cursor cursor = context.getContentResolver().query(CONTENT_URI, null, null, null, _ID);
+            Cursor cursor = getContext().getContentResolver().query(CONTENT_URI, null, null, null, _ID);
             moviesList = new ArrayList<>();
-            if (cursor.moveToFirst()) {
+            if (cursor != null && cursor.moveToFirst()) {
                 do {
                     moviesList.add(new Movie(cursor.getInt(cursor.getColumnIndex(COLUMN_MOVIE_ID)),
                             cursor.getString(cursor.getColumnIndex(COLUMN_TITLE)),
@@ -66,6 +63,7 @@ public class MoviesListLoader extends AsyncTaskLoader<List<Movie>> {
                             cursor.getString(cursor.getColumnIndex(COLUMN_REVIEWS_JSON))
                     ));
                 } while (cursor.moveToNext());
+                cursor.close();
             }
         }
 

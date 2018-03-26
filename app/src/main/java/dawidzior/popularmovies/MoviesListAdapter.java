@@ -1,6 +1,7 @@
 package dawidzior.popularmovies;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +17,8 @@ import dawidzior.popularmovies.utils.NetworkUtils;
 
 public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.ViewHolder> {
 
-    private Context context;
     private final List<Movie> moviesList;
+    private Context context;
     private MovieClickListener movieClickListener;
 
     public MoviesListAdapter(Context context, List<Movie> moviesList, MovieClickListener movieClickListener) {
@@ -27,13 +28,13 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Vi
     }
 
     @Override
-    public MoviesListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MoviesListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View poster = LayoutInflater.from(parent.getContext()).inflate(R.layout.poster_layout, parent, false);
         return new ViewHolder(poster);
     }
 
     @Override
-    public void onBindViewHolder(MoviesListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MoviesListAdapter.ViewHolder holder, int position) {
         //w500 to maintain image quality.
         Picasso.with(context).load(NetworkUtils.IMAGE_BASE_URL + "w500/" + moviesList.get(position).getPoster()).into
                 (holder.posterView);
@@ -44,6 +45,10 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Vi
     @Override
     public int getItemCount() {
         return moviesList.size();
+    }
+
+    public interface MovieClickListener {
+        void onClick(Movie movie, View sharedView);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -60,9 +65,5 @@ public class MoviesListAdapter extends RecyclerView.Adapter<MoviesListAdapter.Vi
         public void onClick(View view) {
             movieClickListener.onClick(moviesList.get(getAdapterPosition()), view);
         }
-    }
-
-    public interface MovieClickListener {
-        void onClick(Movie movie, View sharedView);
     }
 }

@@ -159,7 +159,9 @@ public class DetailsActivity extends AppCompatActivity {
     private boolean isMovieFavoured() {
         Cursor cursor = getContentResolver().query(CONTENT_URI, null, "movie_id=?", new
                 String[]{String.valueOf(movie.getId())}, null);
-        return cursor.getCount() > 0;
+        boolean isMovieFavoured = cursor.getCount() > 0;
+        cursor.close();
+        return isMovieFavoured;
     }
 
     private void setUpTrailers(String trailersJson) {

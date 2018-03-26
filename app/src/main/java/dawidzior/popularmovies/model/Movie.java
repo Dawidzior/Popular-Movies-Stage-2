@@ -4,27 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Movie implements Parcelable {
-    private int id;
-    private String title;
-    private String originalTitle;
-    private String poster;
-    private String overview;
-    private Double userRating;
-    private String releaseDate;
-
-    public Movie() {
-    }
-
-    public Movie(Parcel in) {
-        id = in.readInt();
-        title = in.readString();
-        originalTitle = in.readString();
-        poster = in.readString();
-        overview = in.readString();
-        userRating = in.readDouble();
-        releaseDate = in.readString();
-    }
-
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
         @Override
         public Movie createFromParcel(Parcel in) {
@@ -36,6 +15,43 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+    private int id;
+    private String title;
+    private String originalTitle;
+    private String poster;
+    private String overview;
+    private Double userRating;
+    private String releaseDate;
+    private String trailersJson;
+    private String reviewsJson;
+
+    public Movie() {
+    }
+
+    private Movie(Parcel in) {
+        id = in.readInt();
+        title = in.readString();
+        originalTitle = in.readString();
+        poster = in.readString();
+        overview = in.readString();
+        userRating = in.readDouble();
+        releaseDate = in.readString();
+        trailersJson = in.readString();
+        reviewsJson = in.readString();
+    }
+
+    public Movie(int id, String title, String originalTitle, String poster, String overview, double userRating,
+                 String releaseDate, String trailersJson, String reviewsJson) {
+        this.id = id;
+        this.title = title;
+        this.originalTitle = originalTitle;
+        this.poster = poster;
+        this.overview = overview;
+        this.userRating = userRating;
+        this.releaseDate = releaseDate;
+        this.trailersJson = trailersJson;
+        this.reviewsJson = reviewsJson;
+    }
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
@@ -46,6 +62,8 @@ public class Movie implements Parcelable {
         parcel.writeString(overview);
         parcel.writeDouble(userRating);
         parcel.writeString(releaseDate);
+        parcel.writeString(trailersJson);
+        parcel.writeString(reviewsJson);
     }
 
     @Override
@@ -107,6 +125,22 @@ public class Movie implements Parcelable {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public String getTrailersJson() {
+        return trailersJson;
+    }
+
+    public void setTrailersJson(String trailersJson) {
+        this.trailersJson = trailersJson;
+    }
+
+    public String getReviewsJson() {
+        return reviewsJson;
+    }
+
+    public void setReviewsJson(String reviewsJson) {
+        this.reviewsJson = reviewsJson;
     }
 }
 

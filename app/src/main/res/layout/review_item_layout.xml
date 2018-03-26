@@ -1,0 +1,23 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/default_margin"
+    android:layout_marginStart="@dimen/default_margin"
+    android:layout_marginTop="@dimen/review_margin_top"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/author"
+        style="@style/TextAppearance.AppCompat.Large.Inverse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/review"
+        style="@style/TextAppearance.AppCompat.Small.Inverse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/default_margin"/>
+
+</LinearLayout>

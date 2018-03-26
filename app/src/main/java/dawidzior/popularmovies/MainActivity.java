@@ -24,28 +24,24 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import dawidzior.popularmovies.model.Movie;
 
-public class MainActivity extends AppCompatActivity
-        implements LoaderManager.LoaderCallbacks<List<Movie>>, MoviesListAdapter.MovieClickListener {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Movie>>,
+        MoviesListAdapter.MovieClickListener {
 
     public static final String SORT_BY_KEY = "SORT_BY_KEY";
-
+    public static final String SHARED_ELEMENT = "sharedElement";
     private static final String SORT_BY_POPULARITY = "popular";
     private static final String SORT_BY_RATING = "top_rated";
-
     private static final int MOVIES_LIST_LOADER_ID = 1;
-    public static final String SHARED_ELEMENT = "sharedElement";
-
     @BindView(R.id.movies_list)
     protected RecyclerView moviesList;
-
     @BindView(R.id.toolbar)
     protected Toolbar toolbar;
-
     @BindView(R.id.progress_bar)
     protected ProgressBar progressBar;
-
-    @BindView(R.id.error_text)
-    protected TextView errorText;
+    @BindView(R.id.error_empty_text)
+    protected TextView errorEmptyText;
+    //TODO will ContentObserver fit my needs?
+    private boolean lastRequestFromDatabase = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,21 +52,31 @@ public class MainActivity extends AppCompatActivity
 
         setSupportActionBar(toolbar);
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer
+                .span_count));
         moviesList.setLayoutManager(gridLayoutManager);
 
-        // Popularity is default sorting option.
+        //Popularity is default sorting option.
         requestData(SORT_BY_POPULARITY);
     }
 
-    private void requestData(String key) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //If user is coming back from details (using favourites sort option) reload the list.
+        if (lastRequestFromDatabase) {
+            requestData(null);
+        }
+    }
+
+    private void requestData(String internetRequestSortByKey) {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         assert cm != null;
         NetworkInfo ni = cm.getActiveNetworkInfo();
         if (ni != null && ni.isConnected()) {
             showProgress();
             Bundle queryBundle = new Bundle();
-            queryBundle.putString(SORT_BY_KEY, key);
+            queryBundle.putString(SORT_BY_KEY, internetRequestSortByKey);
 
             if (getLoaderManager().getLoader(MOVIES_LIST_LOADER_ID) != null) {
                 getLoaderManager().restartLoader(MOVIES_LIST_LOADER_ID, queryBundle, this).forceLoad();
@@ -94,9 +100,15 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.sort_by_popularity) {
             requestData(SORT_BY_POPULARITY);
+            lastRequestFromDatabase = false;
             return true;
         } else if (id == R.id.sort_by_rating) {
             requestData(SORT_BY_RATING);
+            lastRequestFromDatabase = false;
+            return true;
+        } else if (id == R.id.sort_by_favourites) {
+            requestData(null);
+            lastRequestFromDatabase = true;
             return true;
         }
 
@@ -110,12 +122,14 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onLoadFinished(Loader<List<Movie>> loader, List<Movie> movies) {
-        if (movies != null) {
+        if (!movies.isEmpty()) {
             MoviesListAdapter adapter = new MoviesListAdapter(this, movies, this);
             //API returns always 20 items.
             moviesList.setHasFixedSize(true);
             moviesList.setAdapter(adapter);
             showList();
+        } else {
+            showEmptyText();
         }
     }
 
@@ -124,11 +138,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void showProgress() {
+        errorEmptyText.animate().alpha(0f)
+                .setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime));
+        errorEmptyText.setVisibility(View.GONE);
         crossfadeAnimation(moviesList, progressBar);
     }
 
     private void showError() {
-        crossfadeAnimation(moviesList, errorText);
+        errorEmptyText.setText(R.string.download_error);
+        crossfadeAnimation(progressBar, errorEmptyText);
+    }
+
+    private void showEmptyText() {
+        errorEmptyText.setText(R.string.empty_list);
+        crossfadeAnimation(progressBar, errorEmptyText);
     }
 
     private void showList() {

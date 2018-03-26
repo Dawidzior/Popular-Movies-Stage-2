@@ -14,9 +14,10 @@ import dawidzior.popularmovies.BuildConfig;
 
 public class NetworkUtils {
     public static final String IMAGE_BASE_URL = "http://image.tmdb.org/t/p/";
+    static final String VIDEOS = "videos";
+    static final String REVIEWS = "reviews";
     private static final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie";
     private static final String API_KEY_PARAM = "api_key";
-
     private static final String API_KEY = BuildConfig.MOVIE_DB_API_KEY;
 
     @Nullable
@@ -24,9 +25,20 @@ public class NetworkUtils {
         Uri moviesQueryUri =
                 Uri.parse(MOVIE_BASE_URL).buildUpon().appendPath(queryType).appendQueryParameter(API_KEY_PARAM, API_KEY)
                         .build();
-
         try {
             return new URL(moviesQueryUri.toString());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Nullable
+    static URL buildMovieUrl(String id, String type) {
+        Uri movieReviewsUrl = Uri.parse(MOVIE_BASE_URL).buildUpon().appendPath(id).appendPath(type)
+                .appendQueryParameter(API_KEY_PARAM, API_KEY).build();
+        try {
+            return new URL(movieReviewsUrl.toString());
         } catch (MalformedURLException e) {
             e.printStackTrace();
             return null;

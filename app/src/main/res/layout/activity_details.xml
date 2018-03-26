@@ -1,8 +1,9 @@
-<ScrollView
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark">
+    android:background="@color/colorPrimaryDark"
+    android:isScrollContainer="true">
 
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -65,7 +66,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/default_margin"
-                    android:layout_marginStart="@dimen/default_margin"/>
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:textColor="@color/colorText"/>
+
+
+                <ToggleButton
+                    android:id="@+id/favourite_button"
+                    android:layout_width="@dimen/favourite_button_size"
+                    android:layout_height="@dimen/favourite_button_size"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:background="@drawable/button_favourite"
+                    android:checked="false"/>
 
             </LinearLayout>
 
@@ -80,6 +91,41 @@
             android:layout_marginStart="@dimen/default_margin"
             android:layout_marginTop="@dimen/default_margin"/>
 
+        <TextView
+            android:id="@+id/trailers_label"
+            style="@style/TextAppearance.AppCompat.Large.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="@string/trailers"
+            android:visibility="gone"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/trailers_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/reviews_label"
+            style="@style/TextAppearance.AppCompat.Large.Inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/default_margin"
+            android:layout_marginStart="@dimen/default_margin"
+            android:layout_marginTop="@dimen/default_margin"
+            android:text="@string/reviews"
+            android:visibility="gone"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/reviews_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:visibility="gone"/>
+
     </LinearLayout>
 
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

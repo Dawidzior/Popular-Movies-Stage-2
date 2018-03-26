@@ -76,7 +76,10 @@
                     android:layout_height="@dimen/favourite_button_size"
                     android:layout_marginStart="@dimen/default_margin"
                     android:background="@drawable/button_favourite"
-                    android:checked="false"/>
+                    android:checked="false"
+                    android:text=""
+                    android:textOff=""
+                    android:textOn=""/>
 
             </LinearLayout>
 
